@@ -213,8 +213,7 @@ static int _rsc_hw_solver_init(struct sde_rsc_priv *rsc)
 	dss_reg_w(&rsc->drv_io, SDE_RSC_SOLVER_MODE_PARM1_DRV0_MODE1,
 					0x80000000, rsc->debug_mode);
 	dss_reg_w(&rsc->drv_io, SDE_RSC_SOLVER_MODE_PARM2_DRV0_MODE1,
-			rsc->timer_config.rsc_backoff_time_ns * 2,
-			rsc->debug_mode);
+			rsc->timer_config.rsc_backoff_time_ns * 2, rsc->debug_mode);
 	dss_reg_w(&rsc->drv_io, SDE_RSC_SOLVER_MODE_PARM3_DRV0_MODE1,
 			rsc->timer_config.pdc_backoff_time_ns, rsc->debug_mode);
 
@@ -344,7 +343,7 @@ static int sde_rsc_mode2_entry_v3(struct sde_rsc_priv *rsc)
 		}
 	}
 
-	dss_reg_w(&rsc->drv_io, SDE_RSC_SOLVER_SOLVER_MODES_ENABLED_DRV0,
+	dss_reg_w(&rsc->wrapper_io, SDE_RSC_SOLVER_SOLVER_MODES_ENABLED_DRV0,
 						0x7, rsc->debug_mode);
 
 	for (i = 0; i <= MAX_MODE2_ENTRY_TRY; i++) {
@@ -605,6 +604,7 @@ int sde_rsc_hw_register_v3(struct sde_rsc_priv *rsc)
 
 	rsc->hw_ops.tcs_wait = rsc_hw_tcs_wait;
 	rsc->hw_ops.tcs_use_ok = rsc_hw_tcs_use_ok;
+	rsc->hw_ops.timer_update = rsc_hw_timer_update;
 	rsc->hw_ops.is_amc_mode = rsc_hw_is_amc_mode;
 	rsc->hw_ops.hw_vsync = rsc_hw_vsync;
 	rsc->hw_ops.debug_show = sde_rsc_debug_show;
